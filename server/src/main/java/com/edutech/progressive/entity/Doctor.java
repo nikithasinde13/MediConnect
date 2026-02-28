@@ -1,11 +1,9 @@
 package com.edutech.progressive.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "doctor")
@@ -14,18 +12,28 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doctor_id")
     private int doctorId;
+
     @Column(name = "full_name", nullable = false, length = 255)
     private String fullName;
+
     @Column(name = "specialty", length = 100)
     private String specialty;
+
     @Column(name = "contact_number", length = 15)
     private String contactNumber;
+
     @Column(name = "email", nullable = false, length = 100)
     private String email;
+
     @Column(name = "years_of_experience")
     private Integer yearsOfExperience;
 
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Clinic> clinics = new ArrayList<>();
+
     public Doctor() {}
+
     public Doctor(int doctorId, String fullName, String specialty, String contactNumber, String email, Integer yearsOfExperience) {
         this.doctorId = doctorId;
         this.fullName = fullName;
@@ -83,4 +91,11 @@ public class Doctor {
         this.yearsOfExperience = yearsOfExperience;
     }
 
+    public List<Clinic> getClinics() {
+        return clinics;
+    }
+
+    public void setClinics(List<Clinic> clinics) {
+        this.clinics = clinics;
+    }
 }
