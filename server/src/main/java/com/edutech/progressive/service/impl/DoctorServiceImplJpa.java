@@ -1,6 +1,7 @@
 package com.edutech.progressive.service.impl;
 
 import com.edutech.progressive.entity.Doctor;
+import com.edutech.progressive.exception.DoctorAlreadyExistsException;
 import com.edutech.progressive.repository.ClinicRepository;
 import com.edutech.progressive.repository.DoctorRepository;
 import com.edutech.progressive.service.DoctorService;
@@ -14,21 +15,16 @@ import java.util.List;
 public class DoctorServiceImplJpa implements DoctorService {
 
     private final DoctorRepository doctorRepository;
-    private final ClinicRepository clinicRepository; // may be null when constructed via single-arg constructor
+    private final ClinicRepository clinicRepository; 
 
-    /**
-     * ✅ Single-arg constructor (required by DayEightTest)
-     * Tests instantiate: new DoctorServiceImplJpa(doctorRepository)
-     */
+    
     public DoctorServiceImplJpa(DoctorRepository doctorRepository) {
         this.doctorRepository = doctorRepository;
-        this.clinicRepository = null; // safe default for tests
+        this.clinicRepository = null;
     }
 
-    /**
-     * ✅ Spring should use THIS constructor when wiring the bean in ApplicationContext.
-     * Mark it with @Autowired to remove ambiguity when multiple constructors exist.
-     */
+    
+
     @Autowired
     public DoctorServiceImplJpa(DoctorRepository doctorRepository,
                                 ClinicRepository clinicRepository) {
@@ -48,6 +44,12 @@ public class DoctorServiceImplJpa implements DoctorService {
 
     @Override
     public Integer addDoctor(Doctor doctor) {
+
+        if (doctor.getEmail() != null) {
+            doctorRepository.findByEmail(doctor.getEmail()).ifPresent(existing -> {
+                throw new DoctorAlreadyExistsException("Doctor already exists with email: " + doctor.getEmail());
+            });
+        }
         Doctor saved = doctorRepository.save(doctor);
         return saved.getDoctorId();
     }
@@ -73,7 +75,6 @@ public class DoctorServiceImplJpa implements DoctorService {
 
     @Override
     public void deleteDoctor(int doctorId) {
-        // Day-8: if we have the ClinicRepository (in Spring context), delete child clinics first
         if (clinicRepository != null) {
             clinicRepository.deleteByDoctorId(doctorId);
         }

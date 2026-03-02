@@ -14,21 +14,14 @@ import java.util.List;
 public class ClinicServiceImplJpa implements ClinicService {
 
     private final ClinicRepository clinicRepository;
-    private final DoctorRepository doctorRepository; // may be null when constructed via single-arg constructor
+    private final DoctorRepository doctorRepository; 
 
-    /**
-     * ✅ Single-arg constructor (required by DayEightTest)
-     * Tests instantiate: new ClinicServiceImplJpa(clinicRepository)
-     */
+    
     public ClinicServiceImplJpa(ClinicRepository clinicRepository) {
         this.clinicRepository = clinicRepository;
-        this.doctorRepository = null; // safe default for tests
+        this.doctorRepository = null;
     }
 
-    /**
-     * ✅ Spring should use THIS constructor when wiring the bean in ApplicationContext.
-     * Mark it with @Autowired to remove ambiguity when multiple constructors exist.
-     */
     @Autowired
     public ClinicServiceImplJpa(ClinicRepository clinicRepository,
                                 DoctorRepository doctorRepository) {
@@ -48,7 +41,6 @@ public class ClinicServiceImplJpa implements ClinicService {
 
     @Override
     public Integer addClinic(Clinic clinic) {
-        // Attach doctor only if repository is available and doctorId provided
         if (doctorRepository != null && clinic.getDoctor() != null && clinic.getDoctor().getDoctorId() != 0) {
             Doctor managed = doctorRepository.findById(clinic.getDoctor().getDoctorId())
                     .orElseThrow(() -> new IllegalArgumentException(

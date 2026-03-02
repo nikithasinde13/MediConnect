@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     Optional<Doctor> findByDoctorId(Integer doctorId);
+
+    // Day-9: duplicate email check
+    Optional<Doctor> findByEmail(String email);
 }

@@ -18,7 +18,6 @@ public class ClinicController {
         this.clinicService = clinicService;
     }
 
-    // GET /clinic - 200 or 500
     @GetMapping
     public ResponseEntity<List<Clinic>> getAllClinics() {
         try {
@@ -28,19 +27,17 @@ public class ClinicController {
         }
     }
 
-    // GET /clinic/{clinicID} - 200 or 500
     @GetMapping("/{clinicID}")
     public ResponseEntity<Clinic> getClinicById(@PathVariable("clinicID") int clinicId) {
         try {
             Clinic clinic = clinicService.getClinicById(clinicId);
-            // Spec allows only 200/500 – return 200 (even if null body)
             return ResponseEntity.ok(clinic);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    // POST /clinic - 201 or 500
+
     @PostMapping
     public ResponseEntity<Integer> addClinic(@RequestBody Clinic clinic) {
         try {
@@ -51,7 +48,6 @@ public class ClinicController {
         }
     }
 
-    // PUT /clinic/{clinicID} - 200 or 500
     @PutMapping("/{clinicID}")
     public ResponseEntity<String> updateClinic(@PathVariable("clinicID") int clinicId,
                                                @RequestBody Clinic clinic) {
@@ -64,7 +60,6 @@ public class ClinicController {
         }
     }
 
-    // DELETE /clinic/{clinicID} - 401 or 500 (per Day-8 spec)
     @DeleteMapping("/{clinicID}")
     public ResponseEntity<String> deleteClinic(@PathVariable("clinicID") int clinicId) {
         try {
@@ -75,7 +70,6 @@ public class ClinicController {
         }
     }
 
-    // GET /clinic/location/{location} - 200 or 500
     @GetMapping("/location/{location}")
     public ResponseEntity<List<Clinic>> getAllClinicByLocation(@PathVariable String location) {
         try {
@@ -85,7 +79,6 @@ public class ClinicController {
         }
     }
 
-    // GET /clinic/doctor/{doctorId} - 200 or 500
     @GetMapping("/doctor/{doctorId}")
     public ResponseEntity<List<Clinic>> getAllClinicByDoctorId(@PathVariable int doctorId) {
         try {
