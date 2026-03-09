@@ -1,15 +1,15 @@
 package com.edutech.progressive.dto;
- 
+
 public class LoginResponse {
- 
     private String token;
     private String roles;
     private Integer userId;
     private Integer patientId;
     private Integer doctorId;
- 
-    public LoginResponse() {}
- 
+
+    public LoginResponse() {
+    }
+
     public LoginResponse(String token, String roles, Integer userId, Integer patientId, Integer doctorId) {
         this.token = token;
         this.roles = roles;
@@ -17,19 +17,44 @@ public class LoginResponse {
         this.patientId = patientId;
         this.doctorId = doctorId;
     }
- 
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
- 
-    public String getRoles() { return roles; }
-    public void setRoles(String roles) { this.roles = roles; }
- 
-    public Integer getUserId() { return userId; }
-    public void setUserId(Integer userId) { this.userId = userId; }
- 
-    public Integer getPatientId() { return patientId; }
-    public void setPatientId(Integer patientId) { this.patientId = patientId; }
- 
-    public Integer getDoctorId() { return doctorId; }
-    public void setDoctorId(Integer doctorId) { this.doctorId = doctorId; }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public Integer getPatientId() {
+        return patientId;
+    }
+
+    public Integer getDoctorId() {
+        return doctorId;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public void setPatientId(Integer patientId) {
+        this.patientId = patientId;
+    }
+
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
+    }
 }

@@ -1,4 +1,34 @@
-
 export class Appointment {
-
-}
+    appointmentId: number;
+    patientId: number;
+    clinicId: number;
+    appointmentDate: Date;
+    status: string;
+    purpose: string;
+  
+    constructor(
+      appointmentId: number,
+      patientId: number,
+      clinicId: number,
+      appointmentDate: Date,
+      status: string,
+      purpose: string
+    ) {
+      this.appointmentId = appointmentId;
+      this.clinicId = clinicId;
+      this.patientId = patientId;
+      this.appointmentDate = appointmentDate;
+      this.status = status;
+      this.purpose = purpose;
+    }
+  
+    logAttributes(): void {
+      console.log('appointmentId:', this.appointmentId);
+      console.log('patientId:', this.patientId);
+      console.log('clinicId:', this.clinicId);
+      console.log('appointmentDate:', this.appointmentDate);
+      console.log('status:', this.status);
+      console.log('purpose:', this.purpose);
+    }
+  }
+  
