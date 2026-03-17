@@ -332,40 +332,227 @@
 // }
 
 
+// import { Component, OnInit } from '@angular/core';
+// import { MediConnectService } from '../../services/mediconnect.service';
+// import { Appointment } from '../../models/Appointment';
+// import { Clinic } from '../../models/Clinic';
+// import { Doctor } from '../../models/Doctor';
+// import { Patient } from '../../models/Patient';
+ 
+// @Component({
+//   selector: 'app-dashboard',
+//   templateUrl: './dashboard.component.html',
+//   styleUrls: ['./dashboard.component.scss']
+// })
+// export class DashboardComponent implements OnInit {
+ 
+//   doctorId!: number;
+//   patientId!: number;
+ 
+//   constructor(private service: MediConnectService) {}
+ 
+//   ngOnInit(): void {
+//     this.doctorId = 1;   // test overrides
+//     this.patientId = 1;  // test overrides
+//   }
+ 
+//   deleteDoctor(): void {
+//     this.service.deleteDoctor(this.doctorId).subscribe();
+//   }
+ 
+//   deleteClinic(clinicId: number): void {
+//     this.service.deleteClinic(clinicId).subscribe();
+//   }
+ 
+//   // ⚠ Test expects updateAppointment(app) WITHOUT changing anything
+//   cancelAppointment(app: Appointment): void {
+//     this.service.updateAppointment(app).subscribe();
+//   }
+// }
+
+
 import { Component, OnInit } from '@angular/core';
-import { MediConnectService } from '../../services/mediconnect.service';
+import { Router } from '@angular/router';
 import { Appointment } from '../../models/Appointment';
 import { Clinic } from '../../models/Clinic';
 import { Doctor } from '../../models/Doctor';
 import { Patient } from '../../models/Patient';
- 
+import { MediConnectService } from '../../services/mediconnect.service';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
- 
-  doctorId!: number;
-  patientId!: number;
- 
-  constructor(private service: MediConnectService) {}
- 
+
+  /* ========= COMMON ========= */
+  role: string | null = null;
+  userId = 0;
+  doctorId = 0;
+  patientId = 0;
+
+  /* ========= DOCTOR VIEW ========= */
+  doctorDetails?: Doctor;
+  clinics: Clinic[] = [];
+  patients: Patient[] = [];
+  selectedClinicId?: number;
+  selectClinicAppointments: Appointment[] = [];
+
+  /* ========= PATIENT VIEW ========= */
+  patientDetails?: Patient;
+  appointments: Appointment[] = [];
+  doctors: Doctor[] = [];
+
+  constructor(
+    private service: MediConnectService,
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
-    this.doctorId = 1;   // test overrides
-    this.patientId = 1;  // test overrides
+    this.role = localStorage.getItem('role');
+    this.userId = Number(localStorage.getItem('user_id')) || 0;
+    this.doctorId = Number(localStorage.getItem('doctor_id')) || 0;
+    this.patientId = Number(localStorage.getItem('patient_id')) || 0;
+
+    if (this.role === 'DOCTOR') {
+      this.loadDoctorDashboard();
+    } else {
+      this.loadPatientDashboard();
+    }
   }
- 
+
+  /* ================= DOCTOR DASHBOARD ================= */
+
+  loadDoctorDashboard(): void {
+    this.service.getDoctorById(this.doctorId).subscribe({
+      next: d => this.doctorDetails = d,
+      error: () => this.doctorDetails = undefined
+    });
+
+    this.service.getClinicsByDoctorId(this.doctorId).subscribe({
+      next: c => this.clinics = c,
+      error: () => this.clinics = []
+    });
+
+    this.service.getAllPatients().subscribe({
+      next: p => this.patients = p,
+      error: () => this.patients = []
+    });
+  }
+
+  onClinicSelect(clinic: Clinic): void {
+    if (!clinic.clinicId) return;
+
+    this.selectedClinicId = clinic.clinicId;
+
+    this.service.getAppointmentsByClinic(clinic.clinicId).subscribe({
+      next: a => this.selectClinicAppointments = a,
+      error: () => this.selectClinicAppointments = []
+    });
+  }
+
+  navigateToEditDoctor(): void {
+    this.router.navigate(['/mediconnect/doctor/edit', this.doctorId]);
+  }
+
+  navigateToEditClinic(clinicId?: number): void {
+    if (clinicId) {
+      this.router.navigate(['/mediconnect/clinic/edit', clinicId]);
+    }
+  }
+
   deleteDoctor(): void {
-    this.service.deleteDoctor(this.doctorId).subscribe();
+    if (confirm('Are you sure you want to delete this doctor profile?')) {
+      this.service.deleteDoctor(this.doctorId).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          alert('Failed to delete doctor');
+        }
+      });
+    }
   }
- 
-  deleteClinic(clinicId: number): void {
-    this.service.deleteClinic(clinicId).subscribe();
+
+  deleteClinic(clinicId?: number): void {
+    if (!clinicId) return;
+
+    if (confirm('Are you sure you want to delete this clinic?')) {
+      this.service.deleteClinic(clinicId).subscribe({
+        next: () => {
+          this.clinics = this.clinics.filter(c => c.clinicId !== clinicId);
+        },
+        error: () => {
+          alert('Failed to delete clinic');
+        }
+      });
+    }
   }
- 
-  // ⚠ Test expects updateAppointment(app) WITHOUT changing anything
-  cancelAppointment(app: Appointment): void {
-    this.service.updateAppointment(app).subscribe();
+
+  
+cancelAppointment(appointment: Appointment): void {
+  // ✅ Guard to satisfy TypeScript strict checks
+  if (!appointment.appointmentId) {
+    return;
+  }
+
+  if (confirm('Cancel appointment?')) {
+    this.service.cancelAppointment(appointment.appointmentId).subscribe({
+      next: () => {
+        this.selectClinicAppointments =
+          this.selectClinicAppointments.filter(
+            a => a.appointmentId !== appointment.appointmentId
+          );
+      },
+      error: () => {
+        alert('Failed to cancel appointment');
+      }
+    });
+  }
+}
+
+
+  /* ================= PATIENT DASHBOARD ================= */
+
+  loadPatientDashboard(): void {
+    this.service.getPatientById(this.patientId).subscribe({
+      next: p => this.patientDetails = p,
+      error: () => this.patientDetails = undefined
+    });
+
+    this.service.getAppointmentsByPatient(this.patientId).subscribe({
+      next: a => this.appointments = a,
+      error: () => this.appointments = []
+    });
+
+    this.service.getAllClinics().subscribe({
+      next: c => this.clinics = c,
+      error: () => this.clinics = []
+    });
+
+    this.service.getAllDoctors().subscribe({
+      next: d => this.doctors = d,
+      error: () => this.doctors = []
+    });
+  }
+
+  navigateToEditPatient(): void {
+    if (this.patientDetails?.patientId) {
+      this.router.navigate(['/mediconnect/patient/edit', this.patientDetails.patientId]);
+    }
+  }
+
+  deletePatient(): void {
+    if (confirm('Are you sure you want to delete your profile?')) {
+      this.service.deletePatient(this.patientId).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          alert('Failed to delete patient');
+        }
+      });
+    }
   }
 }

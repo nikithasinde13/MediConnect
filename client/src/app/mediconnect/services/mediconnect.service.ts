@@ -181,6 +181,10 @@ export class MediConnectService {
   // ---------------- PATIENT API -------------------
 
 
+ cancelAppointment(appointmentId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/appointment/${appointmentId}`);
+  }
+
   getAllPatients(): Observable<Patient[]> {
 
 
