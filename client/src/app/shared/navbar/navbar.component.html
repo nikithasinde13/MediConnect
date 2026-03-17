@@ -1,0 +1,12 @@
+<nav class="navbar">
+    <ul class="navbar-list">
+        <li><a routerLink="/mediconnect" class="nav-link app-name">IPL</a></li>
+
+        <li *ngIf="role === 'DOCTOR'">
+            <a routerLink="/mediconnect/clinic" class="nav-link">Add Clinic</a>
+        </li>
+    </ul>
+
+    <!-- Logout button component -->
+    <app-logout></app-logout>
+</nav>

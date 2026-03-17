@@ -1,0 +1,91 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label class="form-label" for="username">Username</label>
+    <input id="username" type="text" class="form-control" formControlName="username" />
+    <div class="text-danger" *ngIf="registrationForm.get('username')?.touched && registrationForm.get('username')?.invalid">
+      <div *ngIf="registrationForm.get('username')?.errors?.['required']">Username is required</div>
+      <div *ngIf="registrationForm.get('username')?.errors?.['pattern']">Only letters and numbers allowed</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="password">Password</label>
+    <input id="password" type="password" class="form-control" formControlName="password" />
+    <div class="text-danger" *ngIf="registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid">
+      <div *ngIf="registrationForm.get('password')?.errors?.['required']">Password is required</div>
+      <div *ngIf="registrationForm.get('password')?.errors?.['pattern']">Must be 8+ chars with 1 capital and 1 number</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="role">Role</label>
+    <select id="role" class="form-select" formControlName="role" (change)="onRoleChange($event)">
+      <option value="">Select Role</option>
+      <option value="DOCTOR">DOCTOR</option>
+      <option value="PATIENT">PATIENT</option>
+    </select>
+    <div class="text-danger" *ngIf="registrationForm.get('role')?.touched && registrationForm.get('role')?.invalid">
+      <div *ngIf="registrationForm.get('role')?.errors?.['required']">Role is required</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="fullName">Full Name</label>
+    <input id="fullName" type="text" class="form-control" formControlName="fullName" />
+    <div class="text-danger" *ngIf="registrationForm.get('fullName')?.touched && registrationForm.get('fullName')?.invalid">
+      <div *ngIf="registrationForm.get('fullName')?.errors?.['required']">Full Name is required</div>
+      <div *ngIf="registrationForm.get('fullName')?.errors?.['minlength']">Minimum 2 characters</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="contactNumber">Contact Number</label>
+    <input id="contactNumber" type="text" class="form-control" formControlName="contactNumber" />
+    <div class="text-danger" *ngIf="registrationForm.get('contactNumber')?.touched && registrationForm.get('contactNumber')?.invalid">
+      <div *ngIf="registrationForm.get('contactNumber')?.errors?.['required']">Contact Number is required</div>
+      <div *ngIf="registrationForm.get('contactNumber')?.errors?.['pattern']">Must be 10 digits</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="email">Email</label>
+    <input id="email" type="email" class="form-control" formControlName="email" />
+    <div class="text-danger" *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.invalid">
+      <div *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required</div>
+      <div *ngIf="registrationForm.get('email')?.errors?.['email']">Invalid email</div>
+    </div>
+  </div>
+  <div *ngIf="selectedRole === 'DOCTOR'">
+    <div class="mb-3">
+      <label class="form-label" for="specialty">Specialty</label>
+      <input id="specialty" type="text" class="form-control" formControlName="specialty" />
+      <div class="text-danger" *ngIf="registrationForm.get('specialty')?.touched && registrationForm.get('specialty')?.invalid">
+        <div *ngIf="registrationForm.get('specialty')?.errors?.['required']">Specialty is required</div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="yearsOfExperience">Years Of Experience</label>
+      <input id="yearsOfExperience" type="number" class="form-control" formControlName="yearsOfExperience" />
+      <div class="text-danger" *ngIf="registrationForm.get('yearsOfExperience')?.touched && registrationForm.get('yearsOfExperience')?.invalid">
+        <div *ngIf="registrationForm.get('yearsOfExperience')?.errors?.['required']">Years of experience is required</div>
+        <div *ngIf="registrationForm.get('yearsOfExperience')?.errors?.['min']">Must be greater than 0</div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selectedRole === 'PATIENT'">
+    <div class="mb-3">
+      <label class="form-label" for="dateOfBirth">Date Of Birth</label>
+      <input id="dateOfBirth" type="date" class="form-control" formControlName="dateOfBirth" />
+      <div class="text-danger" *ngIf="registrationForm.get('dateOfBirth')?.touched && registrationForm.get('dateOfBirth')?.invalid">
+        <div *ngIf="registrationForm.get('dateOfBirth')?.errors?.['required']">Date of birth is required</div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="address">Address</label>
+      <input id="address" type="text" class="form-control" formControlName="address" />
+      <div class="text-danger" *ngIf="registrationForm.get('address')?.touched && registrationForm.get('address')?.invalid">
+        <div *ngIf="registrationForm.get('address')?.errors?.['required']">Address is required</div>
+        <div *ngIf="registrationForm.get('address')?.errors?.['minlength']">Minimum 5 characters</div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Register</button>
+  <button class="btn btn-secondary ms-2" type="button" (click)="resetForm()">Reset</button>
+  <div class="text-success mt-2" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="text-danger mt-2" *ngIf="errorMessage">{{ errorMessage }}</div>
+</form>

@@ -1,0 +1,21 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="username" class="form-label">Username</label>
+    <input id="username" type="text" class="form-control" formControlName="username" />
+    <div class="text-danger" *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">
+      <div *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</div>
+      <div *ngIf="loginForm.get('username')?.errors?.['pattern']">Only letters and numbers allowed</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input id="password" type="password" class="form-control" formControlName="password" />
+    <div class="text-danger" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+      <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</div>
+      <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Minimum 8 characters</div>
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Login</button>
+  <div class="text-success mt-2" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="text-danger mt-2" *ngIf="errorMessage">{{ errorMessage }}</div>
+</form>
