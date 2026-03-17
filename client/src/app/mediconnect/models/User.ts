@@ -24,4 +24,5 @@ export class User {
         this.doctor = doctor;
         this.clinic = clinic;
     }
+   logAttributes?(): void {}
 }

@@ -22,13 +22,6 @@ export class Doctor {
     this.yearsOfExperience = yearsOfExperience;
   }
 
-  logAttributes(): void {
-    console.log('doctorId:', this.doctorId);
-    console.log('fullName:', this.fullName);
-    console.log('specialty:', this.specialty);
-    console.log('contactNumber:', this.contactNumber);
-    console.log('email:', this.email);
-    console.log('yearsOfExperience:', this.yearsOfExperience);
-  }
+  logAttributes?(): void ;
 
 }
