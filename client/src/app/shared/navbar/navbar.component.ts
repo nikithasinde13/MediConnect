@@ -1,3 +1,25 @@
+
+
+// import { Component, OnInit } from '@angular/core';
+
+// @Component({
+//   selector: 'app-navbar',
+//   templateUrl: './navbar.component.html',
+//   styleUrls: ['./navbar.component.scss']
+// })
+// export class NavBarComponent implements OnInit {
+
+//   // ✅ FIX: initialize property
+//   role: string | null = null;
+
+//   constructor() {}
+
+//   ngOnInit(): void {
+//     console.log(localStorage.getItem('role'));
+//     this.role = localStorage.getItem('role');
+//   }
+// }
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,7 +31,7 @@ export class NavBarComponent implements OnInit {
 
   constructor() { }
 
-  role:string|null;
+  role:string|null=null;
   ngOnInit(): void {
     console.log(localStorage.getItem("role"));
     this.role=localStorage.getItem("role");

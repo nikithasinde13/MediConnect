@@ -1,29 +1,20 @@
 <div class="form-container">
     <h2>Create Appointment</h2>
     <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="appointmentId">Appointment ID:</label>
-            <input type="number" id="appointmentId" formControlName="appointmentId" />
-            <div
-                *ngIf="appointmentForm.controls['appointmentId'].invalid && appointmentForm.controls['appointmentId'].touched">
-                Appointment ID is required and must be greater than 0.
-            </div>
-        </div>
 
         <div class="form-group">
-            <label for="patientId">Patient ID:</label>
+            <label for="patientId">Patient:</label>
             <input type="number" id="patientId" formControlName="patientId" />
-            <div *ngIf="appointmentForm.controls['patientId'].invalid && appointmentForm.controls['patientId'].touched">
-                Patient ID is required and must be greater than 0.
-            </div>
         </div>
 
         <div class="form-group">
-            <label for="clinicId">Clinic ID:</label>
-            <input type="number" id="clinicId" formControlName="clinicId" />
-            <div *ngIf="appointmentForm.controls['clinicId'].invalid && appointmentForm.controls['clinicId'].touched">
-                Clinic ID is required and must be greater than 0.
-            </div>
+            <label for="clinic">Clinic:</label>
+            <select formControlName="clinic">
+                <option value="">Select a Clinic</option>
+                <option *ngFor="let clinic of clinics" [ngValue]="clinic">
+                    {{ clinic.clinicName }}
+                </option>
+            </select>
         </div>
 
         <div class="form-group">
@@ -53,10 +44,11 @@
 
         <div class="form-actions">
             <button type="submit" [disabled]="appointmentForm.invalid">Submit</button>
-            <button type="button" (click)="resetForm()">Reset</button>
+        </div>
+        <div class="form-footer">
+            <a routerLink="/mediconnect" class="link">Dashboard</a>
         </div>
     </form>
-
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </div>
