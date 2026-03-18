@@ -1,112 +1,157 @@
-/* Container Styles */
-.form-container {
+// /* Container Styles */
+// .form-container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   min-height: 100vh;
+//   background-color: #f4f4f4;
+//   padding: 20px;
+
+//   form {
+//     max-width: 400px;
+//     width: 100%;
+//     margin: 0 auto;
+//     padding: 20px;
+//     border: 1px solid #ccc;
+//     border-radius: 5px;
+//     background-color: #fff;
+//     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+//     h2 {
+//       text-align: center;
+//       margin-bottom: 20px;
+//       font-size: 24px;
+//       font-weight: bold;
+//       color: #333;
+//     }
+
+//     div {
+//       display: flex;
+//       flex-direction: column;
+//       margin-bottom: 15px;
+
+//       label {
+//         margin-bottom: 5px;
+//         font-weight: bold;
+//         font-size: 14px;
+//         color: #333;
+//       }
+
+//       input[type='text'],
+//       input[type='password'],
+//       input[type='email'],
+//       input[type='number'],
+//       input[type='date'],
+//       textarea,
+//       select {
+//         width: 100%;
+//         padding: 10px;
+//         border: 1px solid #ccc;
+//         border-radius: 5px;
+//         font-size: 14px;
+//         box-sizing: border-box;
+
+//         &:focus {
+//           border-color: #007bff;
+//           outline: none;
+//           box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+//         }
+//       }
+
+//       .error {
+//         margin-top: 5px;
+//         font-size: 12px;
+//         color: red;
+//         text-align: left;
+
+//         small {
+//           display: block;
+//         }
+//       }
+//     }
+
+//     button[type='submit'] {
+//       display: block;
+//       width: 100%;
+//       padding: 12px;
+//       margin-top: 10px;
+//       border: none;
+//       border-radius: 5px;
+//       background-color: #4caf50;
+//       color: #fff;
+//       font-size: 16px;
+//       font-weight: bold;
+//       cursor: pointer;
+
+//       &:hover {
+//         background-color: #45a049;
+//       }
+//     }
+
+//     .success-message {
+//       color: #155724;
+//       background-color: #d4edda;
+//       border: 1px solid #c3e6cb;
+//       text-align: center;
+//     }
+    
+//     .error-message {
+//       color: #721c24;
+//       background-color: #f8d7da;
+//       border: 1px solid #f5c6cb;
+//       text-align: center;
+//     }
+
+//     .form-footer {
+//       text-align: center;
+//       margin: 20px;
+//       font-size: 16px;
+//       color: #333;
+//     }
+//   }
+// }
+
+
+
+/* Page background */
+.register-wrapper {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f4f4f4;
-  padding: 20px;
+  background-color: #f2f2f2;
+}
 
-  form {
-    max-width: 400px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+/* Card container */
+.register-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 25px;
+  border: 1px solid #ddd;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-    }
+/* Title */
+.register-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
 
-    div {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 15px;
+/* Labels */
+.register-card label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
 
-      label {
-        margin-bottom: 5px;
-        font-weight: bold;
-        font-size: 14px;
-        color: #333;
-      }
+/* Inputs */
+.register-card .form-control,
+.register-card .form-select {
+  margin-top: 5px;
+}
 
-      input[type='text'],
-      input[type='password'],
-      input[type='email'],
-      input[type='number'],
-      input[type='date'],
-      textarea,
-      select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 14px;
-        box-sizing: border-box;
-
-        &:focus {
-          border-color: #007bff;
-          outline: none;
-          box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-        }
-      }
-
-      .error {
-        margin-top: 5px;
-        font-size: 12px;
-        color: red;
-        text-align: left;
-
-        small {
-          display: block;
-        }
-      }
-    }
-
-    button[type='submit'] {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: #4caf50;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #45a049;
-      }
-    }
-
-    .success-message {
-      color: #155724;
-      background-color: #d4edda;
-      border: 1px solid #c3e6cb;
-      text-align: center;
-    }
-    
-    .error-message {
-      color: #721c24;
-      background-color: #f8d7da;
-      border: 1px solid #f5c6cb;
-      text-align: center;
-    }
-
-    .form-footer {
-      text-align: center;
-      margin: 20px;
-      font-size: 16px;
-      color: #333;
-    }
-  }
+/* Button */
+.register-card button {
+  font-size: 15px;
 }
